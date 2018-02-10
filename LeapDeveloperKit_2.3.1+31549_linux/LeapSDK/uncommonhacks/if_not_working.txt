@@ -1,0 +1,2 @@
+ENTER THE COMMAND BELOW UNTIL IT WORKS:
+sudo service leapd restart
