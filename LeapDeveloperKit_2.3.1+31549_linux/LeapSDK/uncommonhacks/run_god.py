@@ -4,9 +4,10 @@ import pygame
 from pygame.locals import *
 import Leap
 import socket
+import json
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-server_address = ('localhost',10000)
+server_address = ('172.16.7.165',10000)
 print('starting up on {} port {}'.format(*server_address))
 
 
@@ -47,8 +48,17 @@ try:
             hand2.updatePos(leaphand2)
             print("Hand1: " + str(hand1.coords))
             print("Hand2: " + str(hand2.coords))
-            send_data = str(hand1.coords) + ',' + str(hand2.coords)
-            sock.sendto(send_data.encode(),server_address)
+            send_dict = json.dumps(
+                {'hand1_x': (hand1.coords[0]-320)/64,
+                'hand1_y': (hand1.coords[1]-240)/48,
+                'hand1_valid': hand1.valid,
+                'hand2_x': (hand2.coords[0]-320)/64,
+                'hand2_y': (hand2.coords[1]-240)/48,
+                'hand2_valid': hand2.valid
+                })
+            
+            #send_data = str(hand1.coords) + ',' + str(hand2.coords)
+            sock.sendto(send_dict.encode('UTF-8'),server_address)
         screen1.fill((0,0,0))
         hand1.draw()
         hand2.draw()

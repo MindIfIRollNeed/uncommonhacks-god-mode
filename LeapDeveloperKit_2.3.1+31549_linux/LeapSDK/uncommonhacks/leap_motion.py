@@ -26,6 +26,13 @@ class Hand:
         self.coords = [self.offsetx + self.pos[0]-(self.width/2), self.offsety + self.pos[2]-(self.height/2)]
         self.rect = pygame.Rect(self.coords[0], self.coords[1], self.width, self.height)
 
+class Finger:
+    def __init__(self,screen):
+        self.offsetx = 320
+        self.offsety = 240
+
+
+
 
 class SampleListener(Leap.Listener):
     def on_init(self, controller):
